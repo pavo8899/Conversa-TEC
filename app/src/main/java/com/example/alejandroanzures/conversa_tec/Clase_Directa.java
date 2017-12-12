@@ -2,13 +2,7 @@ package com.example.alejandroanzures.conversa_tec;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.database.Cursor;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
-import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,26 +10,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+//Widgets
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.lang.reflect.Array;
+//Java Utils
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import android.util.Log;
+//Librerias para reconocimiento de voz
+import android.speech.RecognizerIntent;
+import android.speech.RecognitionListener;
+import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 
 public class Clase_Directa extends AppCompatActivity {
 
     //Variables de TextToVoice
     TextToSpeech TtoVoice;
+    private static final String TAG = "MyStt3Activity";
+
+    //Variables VoiceToText
+    private SpeechRecognizer sr;
 
     //Elementos del layout
     TextView txtvCurrentSpeech;
     ListView lstvHistorySpeech;
-    clasesDB DB;
     FloatingActionButton fabAdd;
     FloatingActionButton fabStartStop;
     FloatingActionButton fabQuestion;
@@ -43,6 +46,9 @@ public class Clase_Directa extends AppCompatActivity {
     LinearLayout LayoutStartStop;
     LinearLayout LayoutQuestion;
     LinearLayout LayoutTmpQuestion;
+
+    //Variables Base de Datos
+    clasesDB DB;
 
     //Animation
     Animation fabOpen;
@@ -126,6 +132,10 @@ public class Clase_Directa extends AppCompatActivity {
             }
         });
 
+        //Voz a Texto
+        sr = SpeechRecognizer.createSpeechRecognizer(this);
+        sr.setRecognitionListener(new listener());
+
     }
 
     //Metodos de FAB
@@ -168,7 +178,16 @@ public class Clase_Directa extends AppCompatActivity {
 
         Snackbar.make(view, "Iniciando Reconocimiento", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-        Reconocimiento();
+        //Reconocimiento();
+
+        //TMP
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,"voice.recognition.test");
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
+        sr.startListening(intent);
+        Log.i("111111","11111111");
     }
 
     public void fabQuestionClick()
@@ -195,6 +214,7 @@ public class Clase_Directa extends AppCompatActivity {
             e.printStackTrace();
         }*/
     }
+
     public void displayQuestionButton()
     {
         LayoutTmpQuestion.startAnimation(fabOpen);
@@ -243,6 +263,57 @@ public class Clase_Directa extends AppCompatActivity {
                     lstvHistorySpeech.setAdapter(adapter);
                 }
             break;
+        }
+    }
+
+    //Clase Listener para el speech recognition
+    class listener implements RecognitionListener
+    {
+        public void onReadyForSpeech(Bundle params)
+        {
+            Log.d(TAG, "onReadyForSpeech");
+        }
+        public void onBeginningOfSpeech()
+        {
+            Log.d(TAG, "onBeginningOfSpeech");
+        }
+        public void onRmsChanged(float rmsdB)
+        {
+            Log.d(TAG, "onRmsChanged");
+        }
+        public void onBufferReceived(byte[] buffer)
+        {
+            Log.d(TAG, "onBufferReceived");
+        }
+        public void onEndOfSpeech()
+        {
+            Log.d(TAG, "onEndofSpeech");
+        }
+        public void onError(int error)
+        {
+            Log.d(TAG,  "error " +  error);
+            txtvCurrentSpeech.setText("error " + error);
+        }
+        public void onResults(Bundle results)
+        {
+            String str = new String();
+            Log.d(TAG, "onResults " + results);
+            ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            for (int i = 0; i < data.size(); i++)
+            {
+                Log.d(TAG, "result " + data.get(i));
+                str += data.get(i);
+            }
+            //txtvCurrentSpeech.setText("results: "+String.valueOf(data.size()));
+            txtvCurrentSpeech.setText(txtvCurrentSpeech.getText()+data.get(0).toString());
+        }
+        public void onPartialResults(Bundle partialResults)
+        {
+            Log.d(TAG, "onPartialResults");
+        }
+        public void onEvent(int eventType, Bundle params)
+        {
+            Log.d(TAG, "onEvent " + eventType);
         }
     }
 }
