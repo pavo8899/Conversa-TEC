@@ -135,5 +135,46 @@ public class clasesDB extends SQLiteOpenHelper
         db.close();
         return  Id;
     }
+
+    public String getNombreClase()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {COLUMNA_CLASE};
+
+        Cursor cursor =
+                db.query(
+                        TABLA_SPEECHCLASE,
+                        projection,
+                        null,
+                        null,
+                        null,
+                        null,
+                        COLUMNA_ID+" desc",
+                        "1");
+
+        String Clase="";
+        if(cursor.moveToFirst())
+        {
+            Clase= cursor.getString(0);
+        }
+        else
+        {
+
+            Clase= "";
+        }
+        db.close();
+        return  Clase;
+    }
 }
 
+class Clases
+{
+    public  String TABLA_SPEECHCLASE;
+    public  String COLUMNA_ID;
+    public  String COLUMNA_HORA;
+    public  String COLUMNA_FECHA;
+    public Clases(String COLUMNA_ID,String COLUMNA_CLASE, String COLUMNA_HORA,String COLUMNA_FECHA)
+    {
+
+    }
+}

@@ -84,8 +84,9 @@ public class MainActivity extends AppCompatActivity {
         btnClaseDirecta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage(getString(R.string.ajustes),getString(R.string.ajustes_desc),R.drawable.ic_configuracion,padre,true);
+                InputClaseName message=new InputClaseName();
+                //InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
+                message.setTitleMessage("","",R.drawable.ic_realizar_pregunta,padre,true);
                 message.show(getSupportFragmentManager(),"Información");
             }
         });

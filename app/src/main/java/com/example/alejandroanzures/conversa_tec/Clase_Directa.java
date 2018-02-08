@@ -152,6 +152,9 @@ public class Clase_Directa extends AppCompatActivity {
         //Color
         acento=new ForegroundColorSpan(R.color.colorAccent);
 
+        clasesDB db=new clasesDB(this);
+        setTitle(db.getNombreClase());
+
     }
 
     //Metodos de FAB
