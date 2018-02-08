@@ -13,6 +13,7 @@
     <!-- FAB COLORS -->
     <color name="fab1">#4CAF50</color>
     <color name="fab2">#2196F3</color>
+    <color name="backgrnd">#FFFFFF</color>
 
     <!-- Colores Personalizados -->
     <color name="colorBookSheet">#E1C694</color>

@@ -60,12 +60,12 @@
                 app:srcCompat="@drawable/ic_favorito" />
         </RelativeLayout>
 
-        <ListView
+        <!--ListView
             android:id="@+id/lstvHistorySpeech"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".70"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical" /-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

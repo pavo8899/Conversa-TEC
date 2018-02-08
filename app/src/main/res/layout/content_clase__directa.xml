@@ -37,17 +37,36 @@
             tools:layout_constraintRight_creator="1"
             tools:layout_constraintTop_creator="1">
 
-            <TextView
-                android:id="@+id/txtvCurrentSpeech"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight=".30"
-                android:background="@color/colorBookSheet"
-                android:gravity="center"
-                android:text="Texto en tiempo real dictado por el profesor."
-                android:textAlignment="center"
-                android:textColor="@color/colorBookText"
-                android:textSize="20sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtvCurrentSpeech"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".15"
+                    android:background="@color/colorBookSheet"
+                    android:gravity="bottom"
+                    android:text="Historial"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBookText"
+                    android:textSize="20sp"
+                    android:scrollbars="vertical"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".90"
+                    android:background="@color/colorBookSheet"
+                    android:gravity="center"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBookText"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/btnFavSpeech"
@@ -60,12 +79,12 @@
                 app:srcCompat="@drawable/ic_favorito" />
         </RelativeLayout>
 
-        <ListView
+        <!--ListView
             android:id="@+id/lstvHistorySpeech"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".70"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical" /-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
