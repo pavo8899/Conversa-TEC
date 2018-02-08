@@ -113,6 +113,12 @@
                     android:layout_height="100dp"
                     android:longClickable="true"
                     android:src="@drawable/ic_configuracion" />
+                <ImageButton
+                    android:id="@+id/btnlistadeClases"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:longClickable="true"
+                    android:src="@drawable/ic_lista_clases" />
 
             </TableRow>
 
@@ -125,6 +131,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/ajustes"
+                    android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/historial"
                     android:textAlignment="center" />
             </TableRow>
 

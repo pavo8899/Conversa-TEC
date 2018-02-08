@@ -1,5 +1,6 @@
 package com.example.alejandroanzures.conversa_tec;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -63,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton btnHistorial=(ImageButton)findViewById(R.id.btnlistadeClases);
+        btnAjustes.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
+                message.setTitleMessage(getString(R.string.ajustes),getString(R.string.historial_desc),R.drawable.ic_lista_clases,padre,false);
+                message.show(getSupportFragmentManager(),"Información");
+                return true;
+            }
+        });
+
         //Clics cortos para funcionamiento
         /*btnProfesor.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -100,6 +112,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });*/
+        btnHistorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent listadeclases = new Intent(padre, listadeclases.class);
+                startActivity(listadeclases);
+            }
+        });
     }
 
     @Override

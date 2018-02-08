@@ -11,5 +11,8 @@
     <string name="clase_directa_desc">Tome una clase particular o directa; Tambien le puede ayudar a estudiar con otro compañero</string>
     <string name="ajustes">Ajustes</string>
     <string name="ajustes_desc">Personalice el funcionamiento de su App para una mejor experiencia</string>
+    <string name="historial">Historial</string>
+    <string name="historial_desc">Revise Clases pasadas para su repaso o estudio</string>
     <string name="title_activity_clase__directa">Clase Directa</string>
+    <string name="title_activity_listadeclases">Lista de Clases</string>
 </resources>

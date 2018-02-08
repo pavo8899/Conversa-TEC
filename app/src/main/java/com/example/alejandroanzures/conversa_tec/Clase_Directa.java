@@ -54,6 +54,7 @@ public class Clase_Directa extends AppCompatActivity {
     clasesDB DB;
     FloatingActionButton fabAdd;
     FloatingActionButton fabStartStop;
+    TextView txtStartStop;
     FloatingActionButton fabQuestion;
     FloatingActionButton fabTmpQuestion;
     LinearLayout LayoutStartStop;
@@ -75,6 +76,7 @@ public class Clase_Directa extends AppCompatActivity {
     //Other Variables
     boolean isOpen=false;
     ForegroundColorSpan acento;
+    clasesDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,7 @@ public class Clase_Directa extends AppCompatActivity {
         //Floating Action Buttons
         fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
         fabStartStop = (FloatingActionButton) findViewById(R.id.fabStartStop);
+        txtStartStop=(TextView)findViewById(R.id.textViewStarStop);
         fabQuestion = (FloatingActionButton) findViewById(R.id.fabQuestion);
         fabTmpQuestion = (FloatingActionButton) findViewById(R.id.fabTmpQuestion);
         LayoutStartStop =(LinearLayout)findViewById(R.id.startStopLayout);
@@ -152,8 +155,8 @@ public class Clase_Directa extends AppCompatActivity {
         //Color
         acento=new ForegroundColorSpan(R.color.colorAccent);
 
-        clasesDB db=new clasesDB(this);
-        setTitle(db.getNombreClase());
+        db=new clasesDB(this);
+        setTitle("Conversa-TEC: "+db.getNombreClase());
 
     }
 
@@ -196,6 +199,7 @@ public class Clase_Directa extends AppCompatActivity {
         if(!ClaseIniciada)
         {
             fabStartStop.setImageResource(R.drawable.ic_stop);
+            txtStartStop.setText("Terminar Clase");
             ClaseIniciada = true;
             Snackbar.make(view, "Iniciando Reconocimiento", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -204,6 +208,7 @@ public class Clase_Directa extends AppCompatActivity {
         else
         {
             fabStartStop.setImageResource(R.drawable.ic_start);
+            txtStartStop.setText("Continuar Clase");
             ClaseIniciada = false;
             Snackbar.make(view, "Deteniendo Reconocimiento", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -256,6 +261,8 @@ public class Clase_Directa extends AppCompatActivity {
 
         Actual=Actual+"<P><font color='red'>"+Pregunta+"</font></P>";
         txtvCurrentSpeech.setText(Html.fromHtml(Actual));
+        db.insertSpeech(Actual);
+        Reconocimiento();
     }
 
     //Metodos de la Clase
@@ -323,7 +330,7 @@ public class Clase_Directa extends AppCompatActivity {
 
             Actual=Actual+"<P>"+data.get(0).toString()+"</P>";
             txtvCurrentSpeech.setText(Html.fromHtml(Actual));
-
+            db.insertSpeech(Actual);
             Reconocimiento();
         }
         public void onPartialResults(Bundle partialResults)

@@ -69,19 +69,21 @@ public class clasesDB extends SQLiteOpenHelper
 
     public void insertSpeech(String Speech)
     {
+        int id=getID();
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-
         values.put(COLUMNA_SPEECH, Speech);
-        db.update(TABLA_SPEECHCLASE,values,"_id="+getID(),null);
+
+        db.update(TABLA_SPEECHCLASE,values,"_id="+id,null);
         db.close();
     }
 
-    public List<String> listadeClases()
+    public ArrayList<itemClase> listadeClases()
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] projection = {COLUMNA_ID, COLUMNA_CLASE,COLUMNA_HORA,COLUMNA_SPEECH,COLUMNA_FECHA};
+        String[] projection = {COLUMNA_ID, COLUMNA_CLASE,COLUMNA_HORA,COLUMNA_FECHA};
 
         Cursor cursor =
                 db.query(
@@ -94,15 +96,23 @@ public class clasesDB extends SQLiteOpenHelper
                         COLUMNA_ID+" desc",
                         null);
 
-        List<String> speech=new ArrayList<String>();
+        ArrayList<itemClase> listaclases=new ArrayList<itemClase>();
         if(cursor.moveToFirst())
         {
             do {
-                speech.add(cursor.getString(1));
+                //speech.add(cursor.getString(1));
+                listaclases.add(
+                  new itemClase(
+                          cursor.getString(0),
+                          cursor.getString(1),
+                          cursor.getString(2),
+                          cursor.getString(3)
+                          )
+                );
             }while (cursor.moveToNext());
         }
         db.close();
-        return speech;
+        return listaclases;
 
     }
 
@@ -164,17 +174,5 @@ public class clasesDB extends SQLiteOpenHelper
         }
         db.close();
         return  Clase;
-    }
-}
-
-class Clases
-{
-    public  String TABLA_SPEECHCLASE;
-    public  String COLUMNA_ID;
-    public  String COLUMNA_HORA;
-    public  String COLUMNA_FECHA;
-    public Clases(String COLUMNA_ID,String COLUMNA_CLASE, String COLUMNA_HORA,String COLUMNA_FECHA)
-    {
-
     }
 }
