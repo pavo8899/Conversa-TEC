@@ -314,7 +314,7 @@ public class Clase_Directa extends AppCompatActivity {
         {
             Log.d(TAG,  "error " +  error);
             //txtvCurrentSpeech.setText("error " + error);
-            Toast.makeText(Clase_Directa.this, "Error " +error,Toast.LENGTH_LONG).show();
+            //Toast.makeText(Clase_Directa.this, "Error " +error,Toast.LENGTH_LONG).show();
             Reconocimiento();
         }
         public void onResults(Bundle results)
