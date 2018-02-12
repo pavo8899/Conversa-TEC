@@ -16,7 +16,7 @@
     <color name="backgrnd">#FFFFFF</color>
 
     <!-- Colores Personalizados -->
-    <color name="colorBookSheet">#E1C694</color>
+    <color name="colorBookSheet">#e1c694</color>
     <color name="colorBookText">#020202</color>
 
 </resources>

@@ -45,6 +45,7 @@ public class InputClaseName extends DialogFragment  {
         tmp2.setText(new SimpleDateFormat("hh:00 a").format(Calendar.getInstance().getTime()));
         builder.setView(dialog)
                 .setIcon(ico)
+                .setTitle("Nombre de la Clase")
                 // Add action buttons
                 .setPositiveButton("Crear Clase", new DialogInterface.OnClickListener() {
                     @Override

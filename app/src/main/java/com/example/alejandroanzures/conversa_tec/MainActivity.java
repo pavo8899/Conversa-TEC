@@ -98,20 +98,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputClaseName message=new InputClaseName();
                 //InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage("","",R.drawable.ic_realizar_pregunta,padre,true);
+                message.setTitleMessage("","",R.drawable.ic_clase_directa,padre,true);
                 message.show(getSupportFragmentManager(),"Información");
             }
         });
-        /*
-        btnAjustes.setOnLongClickListener(new View.OnLongClickListener() {
+
+        btnAjustes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage(getString(R.string.ajustes),getString(R.string.ajustes_desc),R.drawable.ic_configuracion);
-                message.show(getSupportFragmentManager(),"Información");
-                return true;
+            public void onClick(View view) {
+                Intent ajustes = new Intent(padre, Ajustes.class);
+                startActivity(ajustes);
             }
-        });*/
+        });
         btnHistorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -141,5 +139,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

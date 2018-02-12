@@ -28,12 +28,24 @@ public class clasesDB extends SQLiteOpenHelper
     public static final String COLUMNA_HORA = "hora";
     public static final String COLUMNA_SPEECH = "speech";
     public static final String COLUMNA_FECHA = "fecha";
-    private static final String SQL_CREAR = "create table " + TABLA_SPEECHCLASE
+    private static final String SQL_CREAR_SPEECHCLASE = "create table " + TABLA_SPEECHCLASE
             + "(" + COLUMNA_ID  + " integer primary key autoincrement, "
             + COLUMNA_CLASE + " text,"
             + COLUMNA_HORA + " text,"
             + COLUMNA_SPEECH + " text,"
             + COLUMNA_FECHA +" default CURRENT_DATE);";
+
+    //Tabla Clase
+    public static final String TABLA_AJUSTES = "ajustes";
+    public static final String COLUMNA_A_CFONDO = "cfondo";
+    public static final String COLUMNA_A_CFUENTE = "cfuente";
+    public static final String COLUMNA_A_CPREGUNTA = "cpregunta";
+    public static final String COLUMNA_A_TTEXTO = "ttexto";
+    private static final String SQL_CREAR_AJUSTES = "create table " + TABLA_AJUSTES
+            + "(" + COLUMNA_A_CFONDO  + " text, "
+            + COLUMNA_A_CFUENTE + " text,"
+            + COLUMNA_A_CPREGUNTA + " text,"
+            + COLUMNA_A_TTEXTO + " text);";
 
     public clasesDB(Context context)
     {
@@ -43,7 +55,18 @@ public class clasesDB extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
-        sqLiteDatabase.execSQL(SQL_CREAR);
+        sqLiteDatabase.execSQL(SQL_CREAR_SPEECHCLASE);
+        sqLiteDatabase.execSQL(SQL_CREAR_AJUSTES);
+
+        /*SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMNA_A_CFONDO, "#E1C694");
+        values.put(COLUMNA_A_CFUENTE, "#020202");
+        values.put(COLUMNA_A_CPREGUNTA, "#c62828");
+        values.put(COLUMNA_A_TTEXTO, "20sp");
+
+        db.insert(TABLA_AJUSTES, null,values);
+        db.close();*/
     }
 
     @Override
@@ -51,6 +74,7 @@ public class clasesDB extends SQLiteOpenHelper
     {
     }
 
+    //Metodos TABLA CLASE
     public void crearClase(String CLASE,String HORA)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -174,5 +198,78 @@ public class clasesDB extends SQLiteOpenHelper
         }
         db.close();
         return  Clase;
+    }
+
+    public String getSpeechClase()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {COLUMNA_SPEECH};
+
+        Cursor cursor =
+                db.query(
+                        TABLA_SPEECHCLASE,
+                        projection,
+                        null,
+                        null,
+                        null,
+                        null,
+                        COLUMNA_ID+" desc",
+                        "1");
+
+        String Clase="";
+        if(cursor.moveToFirst())
+        {
+            Clase= cursor.getString(0);
+        }
+        else
+        {
+
+            Clase= "";
+        }
+        db.close();
+        return  Clase;
+    }
+
+    //METODOS TABLA AJUSTES
+
+    public void modificarCFONDO(String CFONDO)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMNA_A_CFONDO, CFONDO);
+
+        db.update(TABLA_AJUSTES,values,null,null);
+        db.close();
+    }
+
+    public String getCFONDO()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {COLUMNA_A_CFONDO};
+
+        Cursor cursor =
+                db.query(
+                        TABLA_AJUSTES,
+                        projection,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        "1");
+
+        String HEXColor="";
+        if(cursor.moveToFirst())
+        {
+            HEXColor= cursor.getString(0);
+        }
+        else
+        {
+
+            HEXColor= "#ffffff";
+        }
+        db.close();
+        return  HEXColor;
     }
 }

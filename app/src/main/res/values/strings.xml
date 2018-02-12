@@ -15,4 +15,5 @@
     <string name="historial_desc">Revise Clases pasadas para su repaso o estudio</string>
     <string name="title_activity_clase__directa">Clase Directa</string>
     <string name="title_activity_listadeclases">Lista de Clases</string>
+    <string name="title_activity_ajustes">Ajustes</string>
 </resources>

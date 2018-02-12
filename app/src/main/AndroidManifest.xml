@@ -30,6 +30,10 @@
         <activity
             android:name=".listadeclases"
             android:label="@string/title_activity_listadeclases"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Ajustes"
+            android:label="@string/title_activity_ajustes"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -1,6 +1,7 @@
 package com.example.alejandroanzures.conversa_tec;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -75,7 +77,10 @@ public class Clase_Directa extends AppCompatActivity {
 
     //Other Variables
     boolean isOpen=false;
-    ForegroundColorSpan acento;
+    //Colores
+    int  Colorpregunta;
+    String ColorPregunta;
+    //Bases de Datos
     clasesDB db;
 
     @Override
@@ -153,11 +158,13 @@ public class Clase_Directa extends AppCompatActivity {
         });
 
         //Color
-        acento=new ForegroundColorSpan(R.color.colorAccent);
+        Colorpregunta=getResources().getColor(R.color.colorAccent);
+        ColorPregunta=String.format("%X", Colorpregunta).substring(2);
 
         db=new clasesDB(this);
         setTitle("Conversa-TEC: "+db.getNombreClase());
-
+        Actual=db.getSpeechClase();
+        txtvCurrentSpeech.setText(Html.fromHtml(Actual));
     }
 
     //Metodos de FAB
@@ -248,7 +255,6 @@ public class Clase_Directa extends AppCompatActivity {
         LayoutTmpQuestion.startAnimation(fabOpen);
         fabTmpQuestion.setClickable(true);
     }
-
     public void fabTmpQuestionClick()
     {
 
@@ -259,7 +265,7 @@ public class Clase_Directa extends AppCompatActivity {
         //Añadiendo Pregunta al Current
         //txtvCurrentSpeech
 
-        Actual=Actual+"<P><font color='red'>"+Pregunta+"</font></P>";
+        Actual=Actual+String.format("<P><font color=\"#%s\">"+Pregunta+"</font></P>", ColorPregunta);
         txtvCurrentSpeech.setText(Html.fromHtml(Actual));
         db.insertSpeech(Actual);
         Reconocimiento();
@@ -341,6 +347,22 @@ public class Clase_Directa extends AppCompatActivity {
         {
             Log.d(TAG, "onEvent " + eventType);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Clase_Directa.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+
+
     }
 
     /*public void onActivityResult(int request_code, int result_code, Intent i)
