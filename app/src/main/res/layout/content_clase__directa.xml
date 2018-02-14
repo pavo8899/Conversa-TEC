@@ -56,6 +56,7 @@
                     android:scrollbars="vertical"/>
 
                 <TextView
+                    android:id="@+id/txtvCurrentSpeech0"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight=".90"

@@ -1,14 +1,18 @@
 package com.example.alejandroanzures.conversa_tec;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -16,6 +20,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +34,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -52,6 +58,7 @@ public class Clase_Directa extends AppCompatActivity {
 
     //Elementos del layout
     TextView txtvCurrentSpeech;
+    TextView txtvCurrentSpeech0;
     //ListView lstvHistorySpeech;
     clasesDB DB;
     FloatingActionButton fabAdd;
@@ -72,14 +79,19 @@ public class Clase_Directa extends AppCompatActivity {
     //Current
     String Actual="";
     ArrayAdapter<String> adapter=null;
-
     String Pregunta="";
 
     //Other Variables
     boolean isOpen=false;
     //Colores
-    int  Colorpregunta;
     String ColorPregunta;
+    String HEXColorFondo="";
+    String HEXColorTexto="";
+    String HEXColorPregunta="";
+    String TamañoTexto="";
+    SharedPreferences prefs;
+    AudioManager audioManager;
+
     //Bases de Datos
     clasesDB db;
 
@@ -89,8 +101,12 @@ public class Clase_Directa extends AppCompatActivity {
         setContentView(R.layout.activity_clase__directa);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.ic_clase_directa);
 
         //Elementos del Layout
+        txtvCurrentSpeech0=(TextView) findViewById(R.id.txtvCurrentSpeech0);
         txtvCurrentSpeech=(TextView) findViewById(R.id.txtvCurrentSpeech);
         txtvCurrentSpeech.setText(Actual);
         txtvCurrentSpeech.setMovementMethod(new ScrollingMovementMethod());
@@ -154,19 +170,47 @@ public class Clase_Directa extends AppCompatActivity {
                 if(status != TextToSpeech.ERROR) {
                     TtoVoice.setLanguage(Locale.getDefault());
                 }
+                Log.d(TAG,  "status " +  status);
             }
         });
 
-        //Color
-        Colorpregunta=getResources().getColor(R.color.colorAccent);
-        ColorPregunta=String.format("%X", Colorpregunta).substring(2);
 
         db=new clasesDB(this);
         setTitle("Conversa-TEC: "+db.getNombreClase());
+
         Actual=db.getSpeechClase();
         txtvCurrentSpeech.setText(Html.fromHtml(Actual));
+
+        //Settings personalizados
+        SetSettings();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
     }
 
+    public void SetSettings()
+    {
+        prefs =getSharedPreferences("ConversaTEC", Context.MODE_PRIVATE);
+        HEXColorFondo=prefs.getString("colorFondo", "#e1c694");
+        HEXColorTexto=prefs.getString("colorTexto", "#020202");
+        HEXColorPregunta=prefs.getString("colorPregunta", "#c62828");
+        TamañoTexto=prefs.getString("tamañoTexto", "20");
+
+        int color= Color.parseColor(HEXColorFondo);
+        txtvCurrentSpeech.setBackgroundColor(color);
+        txtvCurrentSpeech0.setBackgroundColor(color);
+        color= Color.parseColor(HEXColorTexto);
+        txtvCurrentSpeech.setTextColor(color);
+
+        txtvCurrentSpeech.setTextSize(Float.parseFloat(TamañoTexto));
+
+        ColorPregunta=HEXColorPregunta;
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        try{
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,0,0);
+            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION,100,0);
+
+        }catch (Exception ex){}
+    }
     //Metodos de FAB
     public void fabAddClick()
     {
@@ -258,16 +302,32 @@ public class Clase_Directa extends AppCompatActivity {
     public void fabTmpQuestionClick()
     {
 
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        try{
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,100,0);
+
+        }catch (Exception ex){}
+
         Toast.makeText(getApplicationContext(), "Realizando Pregunta",Toast.LENGTH_SHORT).show();
+
         TtoVoice.speak(Pregunta, TextToSpeech.QUEUE_FLUSH, null);
         LayoutTmpQuestion.startAnimation(fabClose);
         fabTmpQuestion.setClickable(false);
         //Añadiendo Pregunta al Current
         //txtvCurrentSpeech
-
-        Actual=Actual+String.format("<P><font color=\"#%s\">"+Pregunta+"</font></P>", ColorPregunta);
+        Actual=Actual+String.format("<P><font color=\"%s\">"+Pregunta+"</font></P>", ColorPregunta);
         txtvCurrentSpeech.setText(Html.fromHtml(Actual));
         db.insertSpeech(Actual);
+
+        while (TtoVoice.isSpeaking())
+        {
+
+        }
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        try{
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,0,0);
+
+        }catch (Exception ex){}
         Reconocimiento();
     }
 
@@ -320,7 +380,7 @@ public class Clase_Directa extends AppCompatActivity {
         {
             Log.d(TAG,  "error " +  error);
             //txtvCurrentSpeech.setText("error " + error);
-            //Toast.makeText(Clase_Directa.this, "Error " +error,Toast.LENGTH_LONG).show();
+            Toast.makeText(Clase_Directa.this, "Error " +error,Toast.LENGTH_LONG).show();
             Reconocimiento();
         }
         public void onResults(Bundle results)
@@ -352,8 +412,8 @@ public class Clase_Directa extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setMessage("Are you sure you want to exit?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setMessage("¿Esta seguro que desea Salir?")
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Clase_Directa.super.onBackPressed();
@@ -361,8 +421,17 @@ public class Clase_Directa extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
 
+    @Override
+    public void onDestroy()
+    {
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        try{
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,100,0);
 
+        }catch (Exception ex){}
+        super.onDestroy();
     }
 
     /*public void onActivityResult(int request_code, int result_code, Intent i)
