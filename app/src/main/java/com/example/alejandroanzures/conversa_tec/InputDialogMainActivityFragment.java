@@ -42,7 +42,7 @@ public class InputDialogMainActivityFragment extends DialogFragment  {
                     public void onClick(DialogInterface dialog, int id) {
                         // sign in the user ...
                         ((Clase_Directa)padre).Pregunta=tmp.getText().toString();
-                        ((Clase_Directa)padre).displayQuestionButton();
+                        //((Clase_Directa)padre).displayQuestionButton();
                         try {
                             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                             Ringtone r = RingtoneManager.getRingtone(padre.getApplicationContext(), notification);

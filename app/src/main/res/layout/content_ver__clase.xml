@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.alejandroanzures.conversa_tec.Clase_Directa"
-    tools:showIn="@layout/activity_clase__directa">
+    tools:context="com.example.alejandroanzures.conversa_tec.ver_Clase"
+    tools:showIn="@layout/activity_ver__clase">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -55,42 +55,10 @@
                     android:textSize="20sp"
                     android:scrollbars="vertical"/>
 
-
-                <EditText
-                    android:id="@+id/txtvCurrentSpeech0"
-                    android:layout_width="match_parent"
-                    android:layout_height="1000dp"
-                    android:layout_weight="1.4"
-                    android:layout_marginRight="50dp"
-                    android:gravity=""
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textColor="@color/colorBookText"
-                    android:textSize="20sp" />
-
             </LinearLayout>
 
         </RelativeLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtLogError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_weight=".30"
-        android:text=""
-        android:textAlignment="viewStart"
-        android:textSize="8sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,50 +1,46 @@
 package com.example.alejandroanzures.conversa_tec;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothProfile;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Set;
 
 public class Clase_Directa extends AppCompatActivity {
 
@@ -58,17 +54,10 @@ public class Clase_Directa extends AppCompatActivity {
 
     //Elementos del layout
     TextView txtvCurrentSpeech;
-    TextView txtvCurrentSpeech0;
-    //ListView lstvHistorySpeech;
-    clasesDB DB;
+    EditText txtvCurrentSpeech0;
+    TextView txtLogError;
     FloatingActionButton fabAdd;
     FloatingActionButton fabStartStop;
-    TextView txtStartStop;
-    FloatingActionButton fabQuestion;
-    FloatingActionButton fabTmpQuestion;
-    LinearLayout LayoutStartStop;
-    LinearLayout LayoutQuestion;
-    LinearLayout LayoutTmpQuestion;
 
     //Animation
     Animation fabOpen;
@@ -83,6 +72,8 @@ public class Clase_Directa extends AppCompatActivity {
 
     //Other Variables
     boolean isOpen=false;
+    int loglines=0;
+
     //Colores
     String ColorPregunta;
     String HEXColorFondo="";
@@ -94,6 +85,13 @@ public class Clase_Directa extends AppCompatActivity {
 
     //Bases de Datos
     clasesDB db;
+    clasesDB DB;
+
+    //Bluetooth headset
+    BluetoothHelper mBluetoothHelper;
+    BluetoothAdapter btAdapter;
+    Set pairedDevices;
+    BluetoothHeadset btHeadset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,23 +104,16 @@ public class Clase_Directa extends AppCompatActivity {
         actionBar.setIcon(R.drawable.ic_clase_directa);
 
         //Elementos del Layout
-        txtvCurrentSpeech0=(TextView) findViewById(R.id.txtvCurrentSpeech0);
+        txtvCurrentSpeech0=(EditText) findViewById(R.id.txtvCurrentSpeech0);
         txtvCurrentSpeech=(TextView) findViewById(R.id.txtvCurrentSpeech);
         txtvCurrentSpeech.setText(Actual);
         txtvCurrentSpeech.setMovementMethod(new ScrollingMovementMethod());
+        txtLogError=(TextView) findViewById(R.id.txtLogError);
 
-        //lstvHistorySpeech=(ListView) findViewById(R.id.lstvHistorySpeech);
-        //lstvHistorySpeech.setAdapter(adapter);
 
         //Floating Action Buttons
         fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
         fabStartStop = (FloatingActionButton) findViewById(R.id.fabStartStop);
-        txtStartStop=(TextView)findViewById(R.id.textViewStarStop);
-        fabQuestion = (FloatingActionButton) findViewById(R.id.fabQuestion);
-        fabTmpQuestion = (FloatingActionButton) findViewById(R.id.fabTmpQuestion);
-        LayoutStartStop =(LinearLayout)findViewById(R.id.startStopLayout);
-        LayoutQuestion =(LinearLayout)findViewById(R.id.questionLayout);
-        LayoutTmpQuestion =(LinearLayout)findViewById(R.id.tmpQuestion);
 
         //Animations
         fabOpen= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_open);
@@ -143,18 +134,8 @@ public class Clase_Directa extends AppCompatActivity {
                 fabStartStopClick(view);
             }
         });
-        fabQuestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fabQuestionClick();
-            }
-        });
-        fabTmpQuestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fabTmpQuestionClick();
-            }
-        });
+
+
 
         //Base de Datos
         DB=new clasesDB(this);
@@ -184,7 +165,11 @@ public class Clase_Directa extends AppCompatActivity {
         //Settings personalizados
         SetSettings();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        //Setting and enabling bluetooth headset
+        mBluetoothHelper = new BluetoothHelper(this);
+        SetupBluetooth();
     }
 
     public void SetSettings()
@@ -197,7 +182,7 @@ public class Clase_Directa extends AppCompatActivity {
 
         int color= Color.parseColor(HEXColorFondo);
         txtvCurrentSpeech.setBackgroundColor(color);
-        txtvCurrentSpeech0.setBackgroundColor(color);
+        //txtvCurrentSpeech0.setBackgroundColor(color);
         color= Color.parseColor(HEXColorTexto);
         txtvCurrentSpeech.setTextColor(color);
 
@@ -211,46 +196,39 @@ public class Clase_Directa extends AppCompatActivity {
 
         }catch (Exception ex){}
     }
+
     //Metodos de FAB
+    boolean solicitar=true;
     public void fabAddClick()
     {
-        if(isOpen)
-        {
-            //fabQuestion.startAnimation(fabClose);
-            LayoutQuestion.startAnimation(fabClose);
-            fabQuestion.setClickable(false);
-            //fabStartStop.startAnimation(fabClose);
-            LayoutStartStop.startAnimation(fabClose);
-            fabStartStop.setClickable(false);
-            fabAdd.startAnimation(fabAntiRotate);
-            isOpen=false;
+        if(solicitar) {
+            try {
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(this.getApplicationContext(), notification);
+                r.play();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(getApplicationContext(), "Solicitando Pregunta", Toast.LENGTH_SHORT).show();
+            Pregunta = txtvCurrentSpeech0.getText().toString();
+            solicitar=false;
         }
         else
         {
-            //fabQuestion.startAnimation(fabOpen);
-            LayoutQuestion.startAnimation(fabOpen);
-            fabQuestion.setClickable(true);
-            //fabStartStop.startAnimation(fabOpen);
-            LayoutStartStop.startAnimation(fabOpen);
-            fabStartStop.setClickable(true);
-            fabAdd.startAnimation(fabRotate);
-            isOpen=true;
+            fabTmpQuestionClick();
+            solicitar=true;
         }
-    }
 
+    }
     public void fabStartStopClick(View view)
     {
-        //fabQuestion.startAnimation(fabClose);
-        LayoutQuestion.startAnimation(fabClose);
-        fabQuestion.setClickable(false);
-        //fabStartStop.startAnimation(fabClose);
-        LayoutStartStop.startAnimation(fabClose);
-        fabStartStop.setClickable(false);
+
+        //fabStartStop.setClickable(false);
 
         if(!ClaseIniciada)
         {
             fabStartStop.setImageResource(R.drawable.ic_stop);
-            txtStartStop.setText("Terminar Clase");
+            //txtStartStop.setText("Terminar Clase");
             ClaseIniciada = true;
             Snackbar.make(view, "Iniciando Reconocimiento", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -259,7 +237,7 @@ public class Clase_Directa extends AppCompatActivity {
         else
         {
             fabStartStop.setImageResource(R.drawable.ic_start);
-            txtStartStop.setText("Continuar Clase");
+            //txtStartStop.setText("Continuar Clase");
             ClaseIniciada = false;
             Snackbar.make(view, "Deteniendo Reconocimiento", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -268,36 +246,6 @@ public class Clase_Directa extends AppCompatActivity {
         fabAdd.startAnimation(fabAntiRotate);
         isOpen=false;
 
-    }
-
-    public void fabQuestionClick()
-    {
-        //fabQuestion.startAnimation(fabClose);
-        LayoutQuestion.startAnimation(fabClose);
-        fabQuestion.setClickable(false);
-        //fabStartStop.startAnimation(fabClose);
-        LayoutStartStop.startAnimation(fabClose);
-        fabStartStop.setClickable(false);
-        fabAdd.startAnimation(fabAntiRotate);
-        isOpen=false;
-
-        InputDialogMainActivityFragment message=new InputDialogMainActivityFragment();
-        message.setTitleMessage("","",R.drawable.ic_realizar_pregunta,this);
-        message.show(getSupportFragmentManager(),"Información");
-
-
-        /*try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-    }
-    public void displayQuestionButton()
-    {
-        LayoutTmpQuestion.startAnimation(fabOpen);
-        fabTmpQuestion.setClickable(true);
     }
     public void fabTmpQuestionClick()
     {
@@ -310,11 +258,16 @@ public class Clase_Directa extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "Realizando Pregunta",Toast.LENGTH_SHORT).show();
 
-        TtoVoice.speak(Pregunta, TextToSpeech.QUEUE_FLUSH, null);
-        LayoutTmpQuestion.startAnimation(fabClose);
-        fabTmpQuestion.setClickable(false);
-        //Añadiendo Pregunta al Current
-        //txtvCurrentSpeech
+        HashMap<String, String> myHashRender = new HashMap<String, String>();
+
+        if (mBluetoothHelper.isOnHeadsetSco())
+        {
+            myHashRender.put(TextToSpeech.Engine.KEY_PARAM_STREAM,
+                    String.valueOf(AudioManager.STREAM_VOICE_CALL));
+        }
+        TtoVoice.speak(Pregunta, TextToSpeech.QUEUE_FLUSH, myHashRender);
+        //TtoVoice.speak(Pregunta, TextToSpeech.QUEUE_FLUSH, null);
+
         Actual=Actual+String.format("<P><font color=\"%s\">"+Pregunta+"</font></P>", ColorPregunta);
         txtvCurrentSpeech.setText(Html.fromHtml(Actual));
         db.insertSpeech(Actual);
@@ -334,6 +287,17 @@ public class Clase_Directa extends AppCompatActivity {
     //Metodos de la Clase
     public void Reconocimiento()
     {
+        if(btAdapter.isEnabled())
+        {
+            for (Object tryDevice : pairedDevices)
+            {
+                //This loop tries to start VoiceRecognition mode on every paired device until it finds one that works(which will be the currently in use bluetooth headset)
+                if (btHeadset.startVoiceRecognition((BluetoothDevice) tryDevice))
+                {
+                    break;
+                }
+            }
+        }
         Intent i=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
@@ -380,7 +344,22 @@ public class Clase_Directa extends AppCompatActivity {
         {
             Log.d(TAG,  "error " +  error);
             //txtvCurrentSpeech.setText("error " + error);
-            Toast.makeText(Clase_Directa.this, "Error " +error,Toast.LENGTH_LONG).show();
+            //Toast.makeText(Clase_Directa.this, "Error " +error,Toast.LENGTH_LONG).show();
+            String Error="";
+            switch (error)
+            {
+                case 3: Error="ERROR_AUDIO"; break;
+                case 5: Error="ERROR_CLIENT"; break;
+                case 9: Error="ERROR_INSUFFICIENT_PERMISSIONS"; break;
+                case 2: Error="ERROR_NETWORK"; break;
+                case 1: Error="ERROR_NETWORK_TIMEOUT"; break;
+                case 7: Error="ERROR_NO_MATCH"; break;
+                case 8: Error="ERROR_RECOGNIZER_BUSY"; break;
+                case 4: Error="ERROR_SERVER"; break;
+                case 6: Error="ERROR_SPEECH_TIMEOUT"; break;
+                default: Error="UNKNOW_ERROR"; break;
+            }
+            txtLogError.setText(Error+" "+(loglines++));
             Reconocimiento();
         }
         public void onResults(Bundle results)
@@ -409,6 +388,7 @@ public class Clase_Directa extends AppCompatActivity {
         }
     }
 
+    //Metodos de salida
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -416,6 +396,7 @@ public class Clase_Directa extends AppCompatActivity {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        ClaseIniciada = false;
                         Clase_Directa.super.onBackPressed();
                     }
                 })
@@ -428,29 +409,70 @@ public class Clase_Directa extends AppCompatActivity {
     {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         try{
+            ClaseIniciada = false;
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,100,0);
 
         }catch (Exception ex){}
         super.onDestroy();
     }
 
-    /*public void onActivityResult(int request_code, int result_code, Intent i)
+    //Manejo del bluetooth headset
+
+    private class BluetoothHelper extends BluetoothHeadsetUtils
     {
-        super.onActivityResult(request_code,result_code,i);
-        switch (request_code)
+        public BluetoothHelper(Context context)
         {
-            case 100:
-                if(result_code==RESULT_OK && i!=null)
-                {
-                    ArrayList<String> result =i.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    txtvCurrentSpeech.setText(result.get(0));
-                    DB.agregarSpeech(result.get(0));
-                    DB.leerSpeech();
-                    List<String> speech=DB.leerSpeech();
-                    adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,speech);
-                    lstvHistorySpeech.setAdapter(adapter);
-                }
-            break;
+            super(context);
         }
-    }*/
+
+        @Override
+        public void onScoAudioDisconnected()
+        {
+            // Cancel speech recognizer if desired
+        }
+
+        @Override
+        public void onScoAudioConnected()
+        {
+            // Should start speech recognition here if not already started
+        }
+
+        @Override
+        public void onHeadsetDisconnected()
+        {
+
+        }
+
+        @Override
+        public void onHeadsetConnected()
+        {
+
+        }
+    }
+
+    private void SetupBluetooth()
+    {
+        try {
+            btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+            pairedDevices = btAdapter.getBondedDevices();
+
+            BluetoothProfile.ServiceListener mProfileListener = new BluetoothProfile.ServiceListener() {
+                public void onServiceConnected(int profile, BluetoothProfile proxy) {
+                    if (profile == BluetoothProfile.HEADSET) {
+                        btHeadset = (BluetoothHeadset) proxy;
+                    }
+                }
+
+                public void onServiceDisconnected(int profile) {
+                    if (profile == BluetoothProfile.HEADSET) {
+                        btHeadset = null;
+                    }
+                }
+            };
+            btAdapter.getProfileProxy(this, mProfileListener, BluetoothProfile.HEADSET);
+        }catch (Exception ex){
+            txtLogError.setText(ex.getMessage()+" "+(loglines++));
+        }
+    }
 }

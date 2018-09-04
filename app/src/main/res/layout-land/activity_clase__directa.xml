@@ -22,78 +22,70 @@
 
     <include layout="@layout/content_clase__directa" />
 
-    <LinearLayout
-        android:id="@+id/questionLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="180dp"
-        android:orientation="horizontal"
-        android:visibility="invisible">
+    <!--LinearLayout
+     android:id="@+id/questionLayout"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_gravity="bottom|end"
+     android:layout_marginBottom="180dp"
+     android:orientation="horizontal"
+     android:visibility="invisible">
 
-        <TextView
-            android:id="@+id/textViewQuestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Preguntar ¿?"
-            android:layout_marginRight="5dp"
-            android:layout_gravity="center"
-            style="@style/TextAppearance.AppCompat.Title"/>
+     <TextView
+         android:id="@+id/textViewQuestion"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Preguntar ¿?"
+         android:layout_marginRight="5dp"
+         android:layout_gravity="center"
+         android:background="@color/backgrnd"
+         style="@style/TextAppearance.AppCompat.Title"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabQuestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_question"
-            app:backgroundTint="@color/fab2"
-            />
+     <android.support.design.widget.FloatingActionButton
+         android:id="@+id/fabQuestion"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         app:srcCompat="@drawable/ic_question"
+         app:backgroundTint="@color/fab2"
+         />
 
-    </LinearLayout>
+ </LinearLayout-->
 
     <LinearLayout
         android:id="@+id/startStopLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="100dp"
-        android:orientation="horizontal"
-        android:visibility="invisible">
+        android:layout_marginBottom="60dp"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:orientation="horizontal">
 
-        <TextView
+        <!--TextView
             android:id="@+id/textViewStarStop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Iniciar Clase"
             android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_gravity="center"
-            style="@style/TextAppearance.AppCompat.Title"/>
+            android:background="@color/backgrnd"
+            style="@style/TextAppearance.AppCompat.Title"/-->
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabStartStop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:backgroundTint="@color/fab1"
-            app:srcCompat="@drawable/ic_start" />
+            app:srcCompat="@drawable/ic_start"
+            android:layout_marginBottom="@dimen/fab_margin"
+            app:pressedTranslationZ="12dp"/>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/ic_add"
-        />
-
-    <LinearLayout
+    <!--LinearLayout
         android:id="@+id/tmpQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
         android:orientation="horizontal"
         android:visibility="invisible">
 
@@ -112,7 +104,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
+            android:background="@color/backgrnd"
             android:text="Realizar Pregunta" />
-    </LinearLayout>
+    </LinearLayout-->
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/ic_realizar_pregunta" />
 
 </android.support.design.widget.CoordinatorLayout>

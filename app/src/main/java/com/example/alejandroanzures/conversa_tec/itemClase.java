@@ -1,10 +1,12 @@
 package com.example.alejandroanzures.conversa_tec;
 
+import java.io.Serializable;
+
 /**
  * Created by lNFORMATICA on 08/02/2018.
  */
 
-public class itemClase {
+public class itemClase implements Serializable {
     public  String COLUMNA_CLASE;
     public  String COLUMNA_ID;
     public  String COLUMNA_HORA;
