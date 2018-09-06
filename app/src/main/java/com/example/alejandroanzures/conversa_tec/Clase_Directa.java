@@ -10,17 +10,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,11 +32,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +48,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Set;
+
+import static com.example.alejandroanzures.conversa_tec.R.color.colorIconEnabled;
 
 public class Clase_Directa extends AppCompatActivity {
 
@@ -56,14 +65,15 @@ public class Clase_Directa extends AppCompatActivity {
     TextView txtvCurrentSpeech;
     EditText txtvCurrentSpeech0;
     TextView txtLogError;
-    FloatingActionButton fabAdd;
-    FloatingActionButton fabStartStop;
+    //FloatingActionButton fabAdd;
+    //FloatingActionButton fabStartStop;
+    Button btnIniciar,btnPreguntar;
 
     //Animation
-    Animation fabOpen;
+    /*Animation fabOpen;
     Animation fabClose;
     Animation fabRotate;
-    Animation fabAntiRotate;
+    Animation fabAntiRotate;*/
 
     //Current
     String Actual="";
@@ -101,7 +111,7 @@ public class Clase_Directa extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.drawable.ic_clase_directa);
+        //actionBar.setIcon(R.drawable.ic_clase_directa);
 
         //Elementos del Layout
         txtvCurrentSpeech0=(EditText) findViewById(R.id.txtvCurrentSpeech0);
@@ -112,23 +122,25 @@ public class Clase_Directa extends AppCompatActivity {
 
 
         //Floating Action Buttons
-        fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
-        fabStartStop = (FloatingActionButton) findViewById(R.id.fabStartStop);
+        btnPreguntar=(Button)findViewById(R.id.btnPreguntar);
+        //fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        btnIniciar=(Button)findViewById(R.id.btnIniciar);
+        //fabStartStop = (FloatingActionButton) findViewById(R.id.fabStartStop);
 
         //Animations
-        fabOpen= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_open);
+        /*fabOpen= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_open);
         fabClose=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
         fabRotate=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clock);
-        fabAntiRotate=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anti_clock);
+        fabAntiRotate=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anti_clock);*/
 
         //FAB Actions
-        fabAdd.setOnClickListener(new View.OnClickListener() {
+        btnPreguntar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fabAddClick();
             }
         });
-        fabStartStop.setOnClickListener(new View.OnClickListener() {
+        btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fabStartStopClick(view);
@@ -227,8 +239,8 @@ public class Clase_Directa extends AppCompatActivity {
 
         if(!ClaseIniciada)
         {
-            fabStartStop.setImageResource(R.drawable.ic_stop);
-            //txtStartStop.setText("Terminar Clase");
+            btnIniciar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_stop,0,0,0);
+            btnIniciar.setText("Pausar");
             ClaseIniciada = true;
             Snackbar.make(view, "Iniciando Reconocimiento", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -236,14 +248,13 @@ public class Clase_Directa extends AppCompatActivity {
         }
         else
         {
-            fabStartStop.setImageResource(R.drawable.ic_start);
-            //txtStartStop.setText("Continuar Clase");
+            btnIniciar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_start,0,0,0);
+            btnIniciar.setText("Continuar");
             ClaseIniciada = false;
             Snackbar.make(view, "Deteniendo Reconocimiento", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
 
-        fabAdd.startAnimation(fabAntiRotate);
         isOpen=false;
 
     }
@@ -474,5 +485,37 @@ public class Clase_Directa extends AppCompatActivity {
         }catch (Exception ex){
             txtLogError.setText(ex.getMessage()+" "+(loglines++));
         }
+    }
+
+    //Manejo de Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_clase_directa, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_bluetooth) {
+            item.setIcon(R.drawable.ic_bluetooth_enabled);
+            return true;
+        }
+        if (id == R.id.action_network) {
+            Drawable drawable = item.getIcon();
+
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable, getResources().getColor(R.color.colorIconEnabled));
+            item.setIcon(drawable);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

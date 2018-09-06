@@ -16,15 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:paddingBottom="0dp"
-            android:paddingEnd="0dp"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:paddingStart="0dp"
             android:saveEnabled="false"
             app:logo="@drawable/ic_configuration"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleMarginStart="8dp" />
+            app:titleMarginStart="25dp" />
 
     </android.support.design.widget.AppBarLayout>
 

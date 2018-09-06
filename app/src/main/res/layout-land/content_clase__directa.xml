@@ -46,7 +46,7 @@
                     android:id="@+id/txtvCurrentSpeech"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight=".15"
+                    android:layout_weight="1.5"
                     android:background="@color/colorBookSheet"
                     android:gravity="bottom"
                     android:scrollbars="vertical"
@@ -55,17 +55,47 @@
                     android:textColor="@color/colorBookText"
                     android:textSize="20sp" />
 
+
                 <EditText
                     android:id="@+id/txtvCurrentSpeech0"
                     android:layout_width="match_parent"
-                    android:layout_height="1000dp"
-                    android:layout_marginRight="50dp"
-                    android:layout_weight="1.4"
-                    android:gravity=""
+                    android:layout_height="125dp"
+                    android:layout_weight="1.5"
+                    android:gravity="bottom"
+                    android:hint="Escriba su pregunta"
+                    android:inputType="text"
                     android:text=""
                     android:textAlignment="center"
                     android:textColor="@color/colorBookText"
-                    android:textSize="20sp" />
+                    android:textSize="18sp"
+                    android:scrollbars="vertical"
+                    />
+
+                <LinearLayout
+                    android:layout_width="400dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnIniciar"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_start"
+                        android:text="Iniciar"
+                        android:textAlignment="center" />
+
+                    <Button
+                        android:id="@+id/btnPreguntar"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_question"
+                        android:text="Preguntar" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
