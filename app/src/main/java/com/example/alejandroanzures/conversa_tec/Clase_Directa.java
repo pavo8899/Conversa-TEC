@@ -256,6 +256,7 @@ public class Clase_Directa extends AppCompatActivity {
         }
 
         isOpen=false;
+        //
 
     }
     public void fabTmpQuestionClick()
