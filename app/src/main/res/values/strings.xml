@@ -17,4 +17,6 @@
     <string name="title_activity_listadeclases">Lista de Clases</string>
     <string name="title_activity_ajustes">Ajustes</string>
     <string name="title_activity_ver__clase">Clase:</string>
+    <string name="quick_talk">Quick Talk</string>
+    <string name="quick_talk_desc">Realice preguntas rapidas y reciba respuestas al momento</string>
 </resources>

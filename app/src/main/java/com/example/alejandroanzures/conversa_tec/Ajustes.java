@@ -41,9 +41,10 @@ public class Ajustes extends AppCompatActivity {
         setContentView(R.layout.activity_ajustes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.drawable.ic_configuracion);
+
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.setIcon(R.drawable.ic_configuration);
+        //setTitle(R.string.ajustes);
 
         BTNColorF=(Button)findViewById(R.id.buttonAjCFondo);
         BTNColorF.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +52,7 @@ public class Ajustes extends AppCompatActivity {
             public void onClick(View view) {
                 InputFColor message=new InputFColor();
                 //InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage("","",R.drawable.ic_configuracion,padre,true);
+                message.setTitleMessage("","",R.drawable.ic_configuration,padre,true);
                 message.show(getSupportFragmentManager(),"Información");
             }
         });
@@ -61,7 +62,7 @@ public class Ajustes extends AppCompatActivity {
             public void onClick(View view) {
                 InputTColor message=new InputTColor();
                 //InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage("","",R.drawable.ic_configuracion,padre,true);
+                message.setTitleMessage("","",R.drawable.ic_configuration,padre,true);
                 message.show(getSupportFragmentManager(),"Información");
             }
         });
@@ -71,7 +72,7 @@ public class Ajustes extends AppCompatActivity {
             public void onClick(View view) {
                 InputPColor message=new InputPColor();
                 //InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage("","",R.drawable.ic_configuracion,padre,true);
+                message.setTitleMessage("","",R.drawable.ic_configuration,padre,true);
                 message.show(getSupportFragmentManager(),"Información");
             }
         });
@@ -137,7 +138,7 @@ public class Ajustes extends AppCompatActivity {
     public void dialogoTexto()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.drawable.ic_configuracion);
+        builder.setIcon(R.drawable.ic_configuration);
         builder.setTitle("Tamaño de Texto");
 
 

@@ -114,9 +114,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/colorAccent"
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
         app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/ic_realizar_pregunta" />
+        app:srcCompat="@drawable/ic_question" />
 
 </android.support.design.widget.CoordinatorLayout>

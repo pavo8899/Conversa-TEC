@@ -76,10 +76,11 @@
             android:id="@+id/fabStartStop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/fab1"
-            app:srcCompat="@drawable/ic_start"
             android:layout_marginBottom="@dimen/fab_margin"
-            app:pressedTranslationZ="12dp"/>
+            android:tint="@android:color/background_light"
+            app:backgroundTint="@color/fab1"
+            app:pressedTranslationZ="12dp"
+            app:srcCompat="@drawable/ic_start" />
     </LinearLayout>
 
     <!--LinearLayout
@@ -117,7 +118,9 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
+        android:backgroundTint="@color/colorAccent"
+        android:tint="@android:color/background_light"
         app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/ic_realizar_pregunta" />
+        app:srcCompat="@drawable/ic_question" />
 
 </android.support.design.widget.CoordinatorLayout>

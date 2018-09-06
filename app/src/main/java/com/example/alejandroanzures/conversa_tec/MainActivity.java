@@ -22,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.mipmap.ic_launcher_round);
+
+//        actionBar.setDisplayShowHomeEnabled(true);
+//        actionBar.setLogo(R.mipmap.ic_launcher_round);
 
 
         //Clics largos a Image Buttos para mostrar información
@@ -57,46 +58,29 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         ImageButton btnAjustes=(ImageButton)findViewById(R.id.btnAjustes);
         btnAjustes.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage(getString(R.string.ajustes),getString(R.string.ajustes_desc),R.drawable.ic_configuracion,padre,false);
+                message.setTitleMessage(getString(R.string.ajustes),getString(R.string.ajustes_desc),R.drawable.ic_configuration,padre,false);
                 message.show(getSupportFragmentManager(),"Información");
                 return true;
             }
         });
 
         ImageButton btnHistorial=(ImageButton)findViewById(R.id.btnlistadeClases);
-        btnAjustes.setOnLongClickListener(new View.OnLongClickListener() {
+        btnHistorial.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage(getString(R.string.ajustes),getString(R.string.historial_desc),R.drawable.ic_lista_clases,padre,false);
+                message.setTitleMessage(getString(R.string.historial),getString(R.string.historial_desc),R.drawable.ic_lista_clases,padre,false);
                 message.show(getSupportFragmentManager(),"Información");
                 return true;
             }
         });
 
-        //Clics cortos para funcionamiento
-        /*btnProfesor.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
-                message.setTitleMessage(getString(R.string.profesor),getString(R.string.profesor_desc),R.drawable.ic_profesor);
-                message.show(getSupportFragmentManager(),"Información");
-                return true;
-            }
-        });
-        btnUnirseClase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InputDialogMainActivityFragment message=new InputDialogMainActivityFragment();
-                message.setTitleMessage(getString(R.string.unirse_a_clase),getString(R.string.unirse_a_clase_desc),R.drawable.ic_unirse_clase,padre);
-                message.show(getSupportFragmentManager(),"Información");
-            }
-        });*/
         btnClaseDirecta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
