@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.alejandroanzures.conversa_tec.Clase_Directa"
-    tools:showIn="@layout/activity_clase__directa">
+    tools:showIn="@layout/activity_clase_directa">
 
     <LinearLayout
         android:layout_width="0dp"

@@ -44,7 +44,7 @@ public class Ajustes extends AppCompatActivity {
 
         //ActionBar actionBar = getSupportActionBar();
         //actionBar.setIcon(R.drawable.ic_configuration);
-        //setTitle(R.string.ajustes);
+        setTitle(R.string.ajustes);
 
         BTNColorF=(Button)findViewById(R.id.buttonAjCFondo);
         BTNColorF.setOnClickListener(new View.OnClickListener() {

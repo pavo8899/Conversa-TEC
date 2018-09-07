@@ -3,19 +3,15 @@ package com.example.alejandroanzures.conversa_tec;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.view.View;
 import android.widget.TextView;
 
-public class ver_Clase extends AppCompatActivity {
+public class VerClase extends AppCompatActivity {
 
     private itemClase Item;
 
@@ -34,7 +30,7 @@ public class ver_Clase extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver__clase);
+        setContentView(R.layout.activity_ver_clase);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

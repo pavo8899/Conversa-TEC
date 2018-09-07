@@ -15,14 +15,11 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
@@ -36,8 +33,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,8 +43,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Set;
-
-import static com.example.alejandroanzures.conversa_tec.R.color.colorIconEnabled;
 
 public class Clase_Directa extends AppCompatActivity {
 
@@ -106,7 +99,7 @@ public class Clase_Directa extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clase__directa);
+        setContentView(R.layout.activity_clase_directa);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -169,7 +162,7 @@ public class Clase_Directa extends AppCompatActivity {
 
 
         db=new clasesDB(this);
-        setTitle("Conversa-TEC: "+db.getNombreClase());
+        setTitle("CT: "+db.getNombreClase());
 
         Actual=db.getSpeechClase();
         txtvCurrentSpeech.setText(Html.fromHtml(Actual));

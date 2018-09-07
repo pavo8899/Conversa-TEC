@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alejandroanzures.conversa_tec.ver_Clase">
+    tools:context="com.example.alejandroanzures.conversa_tec.VerClase">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,6 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_ver__clase" />
+    <include layout="@layout/content_ver_clase" />
 
 </android.support.design.widget.CoordinatorLayout>

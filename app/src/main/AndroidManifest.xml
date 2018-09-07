@@ -35,7 +35,7 @@
             android:label="@string/title_activity_clase__directa"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".listadeclases"
+            android:name=".Lista_Clases"
             android:label="@string/title_activity_listadeclases"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -43,7 +43,7 @@
             android:label="@string/title_activity_ajustes"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ver_Clase"
+            android:name=".VerClase"
             android:label="@string/title_activity_ver__clase"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

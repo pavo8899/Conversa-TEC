@@ -23,7 +23,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_clase__directa" />
+    <include layout="@layout/content_clase_directa" />
 
     <!--LinearLayout
      android:id="@+id/questionLayout"

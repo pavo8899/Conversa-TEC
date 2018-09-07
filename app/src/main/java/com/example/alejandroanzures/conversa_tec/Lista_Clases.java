@@ -2,31 +2,29 @@ package com.example.alejandroanzures.conversa_tec;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CalendarView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class listadeclases extends AppCompatActivity {
+public class Lista_Clases extends AppCompatActivity {
     private ListView items;
     private AdaptadorClases adaptador;
     ArrayList<itemClase> lstitem;
 
+    CalendarView calendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listadeclases);
+        setContentView(R.layout.lista_de_clases);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.drawable.ic_lista_clases);
+        setTitle(R.string.historial);
 
         clasesDB db=new clasesDB(this);
         lstitem=db.listadeClases();
@@ -38,11 +36,13 @@ public class listadeclases extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent,View view, int Position, long id)
             {
-                Intent verclase=new Intent(listadeclases.this,ver_Clase.class);
+                Intent verclase=new Intent(Lista_Clases.this,VerClase.class);
                 verclase.putExtra("objetoData",lstitem.get(Position));
                 startActivity(verclase);
             }
         });
+
+
     }
 
 }
