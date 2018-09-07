@@ -170,6 +170,7 @@ public class Clase_Directa extends AppCompatActivity {
         //Settings personalizados
         SetSettings();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         //Setting and enabling bluetooth headset
@@ -497,13 +498,12 @@ public class Clase_Directa extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_bluetooth) {
+        if (id == R.id.action_delete) {
             item.setIcon(R.drawable.ic_bluetooth_enabled);
             return true;
         }
         if (id == R.id.action_network) {
             Drawable drawable = item.getIcon();
-
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTint(drawable, getResources().getColor(R.color.colorIconEnabled));
             item.setIcon(drawable);

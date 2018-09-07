@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alejandroanzures.conversa_tec.VerClase">
+    tools:context="com.example.alejandroanzures.conversa_tec.Lista_Clases">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,9 +20,10 @@
             app:logo="@drawable/ic_lista_clases"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleMarginStart="25dp" />
-
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_ver_clase" />
+    <include
+        layout="@layout/content_lista_de_clases"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

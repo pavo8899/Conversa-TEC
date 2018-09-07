@@ -78,6 +78,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton btnQuickTalk=(ImageButton)findViewById(R.id.btnQuickTalk);
+        btnQuickTalk.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                InfoDialogMainActivityFragment message=new InfoDialogMainActivityFragment();
+                message.setTitleMessage(getString(R.string.quick_talk),getString(R.string.quick_talk_desc),R.drawable.ic_quick_talk,padre,false);
+                message.show(getSupportFragmentManager(),"Información");
+                return true;
+            }
+        });
+
+
         btnClaseDirecta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +112,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent listadeclases = new Intent(padre, Lista_Clases.class);
                 startActivity(listadeclases);
+            }
+        });
+        btnQuickTalk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent quick_talk = new Intent(padre, Quick_Talk.class);
+                startActivity(quick_talk);
             }
         });
     }

@@ -19,4 +19,5 @@
     <string name="title_activity_ver__clase">Clase:</string>
     <string name="quick_talk">Quick Talk</string>
     <string name="quick_talk_desc">Realice preguntas rapidas y reciba respuestas al momento</string>
+    <string name="title_activity_quick_talk">quick_talk</string>
 </resources>

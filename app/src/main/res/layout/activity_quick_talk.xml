@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alejandroanzures.conversa_tec.Lista_Clases">
+    tools:context=".Quick_Talk">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -16,11 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:saveEnabled="false"
+            app:logo="@drawable/ic_quick_talk"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleMarginStart="25dp" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_lista_de_clases" />
+    <include layout="@layout/content_quick_talk" />
 
 
 </android.support.design.widget.CoordinatorLayout>

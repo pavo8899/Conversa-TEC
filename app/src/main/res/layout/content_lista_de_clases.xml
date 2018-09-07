@@ -7,7 +7,7 @@
     android:padding="8dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.alejandroanzures.conversa_tec.Lista_Clases"
-    tools:showIn="@layout/lista_de_clases">
+    tools:showIn="@layout/activity_lista_clases">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,33 +25,33 @@
             android:orientation="horizontal"
             android:paddingBottom="4dp">
 
-            <EditText
+            <Button
                 android:id="@+id/textEditDate"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="2dp"
                 android:layout_weight="1.5"
-                android:enabled="false"
+                android:background="@drawable/underline_border"
                 android:gravity="center_vertical"
-                android:paddingRight="2dp"
                 android:text="DD/MM/AAAA"
                 android:textAlignment="center"
                 android:textColor="@color/colorBookText"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"/>
 
-            <EditText
-                android:id="@+id/textEditClase"
+            <Spinner
+                android:id="@+id/textEditTopic"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
                 android:layout_weight="1.5"
-                android:enabled="false"
+                android:background="@drawable/underline_border"
                 android:gravity="center_vertical"
-                android:paddingLeft="2dp"
-                android:text="TODAS"
                 android:textAlignment="center"
                 android:textColor="@color/colorBookText"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="visible" />
+
 
         </LinearLayout>
 

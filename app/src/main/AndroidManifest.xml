@@ -3,16 +3,21 @@
     package="com.example.alejandroanzures.conversa_tec">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission-sdk-23 android:name="android.permission.BLUETOOTH"/>
-    <uses-permission-sdk-23 android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-permission-sdk-23 android:name="android.permission.BLUETOOTH" />
+    <uses-permission-sdk-23 android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission-sdk-23 android:name="android.permission.RECORD_AUDIO"/>
+
+    <uses-permission-sdk-23 android:name="android.permission.RECORD_AUDIO" />
+
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -45,6 +50,10 @@
         <activity
             android:name=".VerClase"
             android:label="@string/title_activity_ver__clase"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Quick_Talk"
+            android:label="@string/title_activity_quick_talk"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
