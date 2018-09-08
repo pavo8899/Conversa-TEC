@@ -18,39 +18,67 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_weight="1.5"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:scrollbars="vertical">
 
             <ListView
                 android:id="@+id/listViewFrases"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="400dp"
             android:layout_weight="1"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editTextFrasePersonal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:hint="Escriba su pregunta"
+                    android:inputType="text" />
+
+                <Button
+                    android:id="@+id/btnPregunta"
+                    android:layout_width="320dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="2"
+                    android:text="Preguntar" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textViewRespuesta"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="120dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:layout_weight="1"
                 android:background="@color/colorBookSheet"
-                android:text="TextView" />
+                android:gravity="center_vertical|center_horizontal"
+                android:text="..."
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnRespuesta"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="3"
                 android:drawableLeft="@drawable/ic_microphone"
                 android:text="Respuesta" />
+
         </LinearLayout>
 
     </LinearLayout>

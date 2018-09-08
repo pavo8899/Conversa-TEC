@@ -1,23 +1,45 @@
 package com.example.alejandroanzures.conversa_tec;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class Quick_Talk extends AppCompatActivity //implements OnDSPermissionsListener
+import com.vikramezhil.droidspeech.DroidSpeech;
+import com.vikramezhil.droidspeech.OnDSListener;
+import com.vikramezhil.droidspeech.OnDSPermissionsListener;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+public class Quick_Talk extends AppCompatActivity implements OnDSListener, OnDSPermissionsListener
 {
 
-   /* DroidSpeech droidSpeech;
+    DroidSpeech droidSpeech;
+    TextToSpeech TtoVoice;
 
-    String Speech="Current Speech:\n";
-    TextView SpeechView;
+    String Respuesta;
+    int Volume1;
 
-    FloatingActionButton fab;
+    TextView textViewRespuesta;
+    EditText editTextFrasePersonal;
+    Button btnRespuesta,btnPregunta;
+    ListView listViewFrases;
 
-    boolean Status=false;
-    int Volume1,Volume2;
-
-    AudioManager audioManager; */
+    AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +48,69 @@ public class Quick_Talk extends AppCompatActivity //implements OnDSPermissionsLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(R.string.quick_talk);
+
+        droidSpeech = new DroidSpeech(this.getApplicationContext(), this.getFragmentManager());
+        /* Set the listener */
+        droidSpeech.setOnDroidSpeechListener(this);
+        droidSpeech.setContinuousSpeechRecognition(false);
+        audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
+        TtoVoice=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    TtoVoice.setLanguage(Locale.getDefault());
+                }
+            }
+        });
+
+        btnRespuesta=(Button)findViewById(R.id.btnRespuesta);
+        textViewRespuesta=(TextView)findViewById(R.id.textViewRespuesta);
+        listViewFrases=(ListView)findViewById(R.id.listViewFrases);
+        editTextFrasePersonal=(EditText)findViewById(R.id.editTextFrasePersonal);
+        btnPregunta=(Button)findViewById(R.id.btnPregunta);
+
+        btnRespuesta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ButtonRespuestaAction();
+            }
+        });
+        textViewRespuesta.setText(Respuesta);
+        btnPregunta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ButtonPreguntaAction();
+            }
+        });
+
+        String[] Frases={"Hola, ¿Podrías ayudarme?","¿Donde están los baños más cercanos?","Gracias, eres muy amable"};
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Frases);
+        listViewFrases.setAdapter(adaptador);
+
+        listViewFrases.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onItemAction(parent,view,position,id);
+            }
+        });
     }
 
-    /*//CSR
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        savedInstanceState.putString("Respuesta",Respuesta);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        super.onRestoreInstanceState(savedInstanceState);
+        Respuesta = savedInstanceState.getString("Respuesta");
+        textViewRespuesta.setText(Respuesta);
+    }
+
+    //CSR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -44,20 +126,77 @@ public class Quick_Talk extends AppCompatActivity //implements OnDSPermissionsLi
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_bluetooth) {
-            item.setIcon(R.drawable.ic_baseline_bluetooth_enabled);
-            return true;
-        }
-        if (id == R.id.action_network) {
-            item.setIcon(R.drawable.ic_baseline_network_enabled);
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    //droidSpeech Methods
+    public void ButtonRespuestaAction()
+    {
+        droidSpeech.startDroidSpeechRecognition();
+    }
 
+    public void onItemAction(AdapterView<?> parent, View view, int position, long id)
+    {
+        Volume1=audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        String Pregunta=listViewFrases.getItemAtPosition(position).toString();
+        try{
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,100,0);
+
+        }catch (Exception ex){}
+
+        Toast.makeText(this, "Realizando Pregunta",Toast.LENGTH_SHORT).show();
+
+        HashMap<String, String> myHashRender = new HashMap<String, String>();
+
+
+        TtoVoice.speak(Pregunta, TextToSpeech.QUEUE_FLUSH, myHashRender);
+        //TtoVoice.speak(Pregunta, TextToSpeech.QUEUE_FLUSH, null);
+
+        textViewRespuesta.setText(Pregunta);
+
+        while (TtoVoice.isSpeaking())
+        {
+
+        }
+        TtoVoice.stop();
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        try{
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,Volume1,0);
+
+        }catch (Exception ex){}
+    }
+
+    public void ButtonPreguntaAction()
+    {
+        Volume1=audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        String Pregunta=editTextFrasePersonal.getText().toString();
+        try{
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,100,0);
+
+        }catch (Exception ex){}
+
+        Toast.makeText(this, "Realizando Pregunta",Toast.LENGTH_SHORT).show();
+
+        HashMap<String, String> myHashRender = new HashMap<String, String>();
+
+
+        TtoVoice.speak(Pregunta, TextToSpeech.QUEUE_FLUSH, myHashRender);
+        //TtoVoice.speak(Pregunta, TextToSpeech.QUEUE_FLUSH, null);
+
+        textViewRespuesta.setText(Pregunta);
+
+        while (TtoVoice.isSpeaking())
+        {
+
+        }
+        TtoVoice.stop();
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        try{
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,Volume1,0);
+
+        }catch (Exception ex){}
+    }
+    //droidSpeech Methods
     @Override
     public void onDroidSpeechSupportedLanguages(String currentSpeechLanguage, List<String> supportedSpeechLanguages)
     {
@@ -74,15 +213,15 @@ public class Quick_Talk extends AppCompatActivity //implements OnDSPermissionsLi
     public void onDroidSpeechLiveResult(String liveSpeechResult)
     {
         // Triggered during live speech of the user`
-        SpeechView.setText(Speech+liveSpeechResult);
+        textViewRespuesta.setText(liveSpeechResult);
     }
 
     @Override
     public void onDroidSpeechFinalResult(String finalSpeechResult)
     {
         // Triggered after the user finishes the speech
-        Speech=Speech+finalSpeechResult+'\n';
-        SpeechView.setText(Speech);
+        Respuesta=finalSpeechResult;
+        textViewRespuesta.setText(Respuesta);
     }
 
     @Override
@@ -95,34 +234,28 @@ public class Quick_Talk extends AppCompatActivity //implements OnDSPermissionsLi
     public void onDroidSpeechError(String errorMsg)
     {
         // Triggered when droid speech encounters an error
-        Toast toast = Toast.makeText(this.getApplicationContext(), "Error:\n"+errorMsg+"\n\nDeteniendo Reconocimiento", Toast.LENGTH_SHORT);
+        Toast toast=Toast.makeText(this,errorMsg,Toast.LENGTH_LONG);
         toast.show();
-
-        fab.setImageResource(android.R.drawable.ic_media_play);
-        Status=false;
-        droidSpeech.closeDroidSpeechOperations();
-
-        try{
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,Volume1,0);
-
-        }catch (Exception ex){}
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.RECORD_AUDIO},MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
 
     }
 
     @Override
     public void onDroidSpeechAudioPermissionStatus(boolean audioPermissionGiven, String errorMsgIfAny)
     {
-        if(!audioPermissionGiven)
+        if(audioPermissionGiven)
+            droidSpeech.startDroidSpeechRecognition();
+        else
         {
-            Toast toast = Toast.makeText(this.getApplicationContext(), "Error:--\n"+errorMsgIfAny, Toast.LENGTH_SHORT);
+            Toast toast=Toast.makeText(this,"Error\nNo se puede reconocer voz sin los permisos",Toast.LENGTH_LONG);
             toast.show();
-
-
         }
+    }
 
-    }*/
+    @Override
+    public void onDestroy()
+    {
+        droidSpeech.closeDroidSpeechOperations();
+        super.onDestroy();
+    }
 
 }
