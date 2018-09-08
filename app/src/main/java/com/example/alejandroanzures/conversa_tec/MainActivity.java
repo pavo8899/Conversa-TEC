@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Clics largos a Image Buttos para mostrar información
-        ImageButton btnProfesor=(ImageButton)findViewById(R.id.btnProfesor);
+        /*ImageButton btnProfesor=(ImageButton)findViewById(R.id.btnProfesor);
         btnProfesor.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 message.show(getSupportFragmentManager(),"Información");
                 return true;
             }
-        });
+        });*/
         ImageButton btnClaseDirecta=(ImageButton)findViewById(R.id.btnClaseDirecta);
         btnClaseDirecta.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

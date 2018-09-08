@@ -52,49 +52,55 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp">
 
-            <TableRow
+            <!--TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="invisible">
 
                 <ImageButton
                     android:id="@+id/btnProfesor"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:longClickable="true"
-                    android:src="@drawable/ic_profesor"
                     android:padding="27dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_profesor"
                     android:tint="#4a4a4a"
-                    android:scaleType="fitCenter"/>
+                    android:visibility="invisible" />
 
                 <ImageButton
                     android:id="@+id/btnUnirseClase"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:longClickable="true"
-                    android:src="@drawable/ic_unirse_clase"
                     android:padding="27dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_unirse_clase"
                     android:tint="#4a4a4a"
-                    android:scaleType="fitCenter"/>
+                    android:visibility="invisible" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/profesor"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/unirse_a_clase"
-                    android:textAlignment="center" />
-            </TableRow>
+                    android:textAlignment="center"
+                    android:visibility="invisible" />
+            </TableRow-->
 
             <TableRow
                 android:layout_width="match_parent"

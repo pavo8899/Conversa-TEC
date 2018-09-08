@@ -498,7 +498,7 @@ public class Clase_Directa extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_delete) {
+        if (id == R.id.action_bluetooth) {
             item.setIcon(R.drawable.ic_bluetooth_enabled);
             return true;
         }
@@ -509,7 +509,6 @@ public class Clase_Directa extends AppCompatActivity {
             item.setIcon(drawable);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

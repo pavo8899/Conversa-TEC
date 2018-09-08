@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageButton
+                <!--ImageButton
                     android:id="@+id/btnProfesor"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
@@ -73,7 +73,7 @@
                     android:padding="27dp"
                     android:scaleType="fitCenter"
                     android:tint="#4a4a4a"
-                    android:src="@drawable/ic_unirse_clase" />
+                    android:src="@drawable/ic_unirse_clase" /-->
 
                 <ImageButton
                     android:id="@+id/btnClaseDirecta"
@@ -84,38 +84,7 @@
                     android:scaleType="fitCenter"
                     android:tint="#4a4a4a"
                     android:src="@drawable/ic_clase_directa" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profesor"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/unirse_a_clase"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/clase_directa"
-                    android:textAlignment="center" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                <!--Temporalmente Aqui-->
                 <ImageButton
                     android:id="@+id/btnQuickTalk"
                     android:layout_width="match_parent"
@@ -135,6 +104,53 @@
                     android:scaleType="fitCenter"
                     android:tint="#4a4a4a"
                     android:src="@drawable/ic_lista_clases" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!--TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profesor"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unirse_a_clase"
+                    android:textAlignment="center" /-->
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clase_directa"
+                    android:textAlignment="center" />
+
+                <!--Temporalmente Aqui-->
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quick_talk"
+                    android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/historial"
+                    android:textAlignment="center" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
                 <ImageButton
                     android:id="@+id/btnAjustes"
                     android:layout_width="match_parent"
@@ -150,19 +166,6 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/quick_talk"
-                    android:textAlignment="center" />
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/historial"
-                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/textView10"
